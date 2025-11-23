@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>BonusRadarDE – Exklusive Casino-Deals</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #04030a;
+      --bg-2: #090819;
+      --fg: #fdfdfd;
+      --muted: #a3a3b5;
+      --border: #2b2b3b;
+      --gold: #ffd700;
+      --neon-green: #00ff9d;
+      --neon-cyan: #00e5ff;
+      --neon-pink: #ff4bcb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #18152f 0, #04030a 55%, #000 100%);
+      color: var(--fg);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 900px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at top, #18152f 0, #04030a 60%, #000 100%);
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 3rem 1.25rem 1.5rem;
+    }
+
+    .logo {
+      width: 8rem;
+      height: 8rem;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.4));
+      object-fit: contain;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      max-width: 32rem;
+      color: var(--muted);
+    }
+
+    @media (min-width: 768px) {
+      .logo {
+        width: 10rem;
+        height: 10rem;
+      }
+      .subtitle {
+        font-size: 1.15rem;
+      }
+    }
+
+    section {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+
+    .hero-title span {
+      color: var(--gold);
+    }
+
+    @media (min-width: 768px) {
+      .hero-title {
+        font-size: 3rem;
+      }
+    }
+
+    .hero-text {
+      font-size: 1.05rem;
+      max-width: 32rem;
+      margin-bottom: 1.75rem;
+      color: rgba(250, 250, 255, 0.9);
+    }
+
+    @media (min-width: 768px) {
+      .hero-text {
+        font-size: 1.15rem;
+      }
+    }
+
+    .timer {
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      font-size: 1rem;
+      padding: 0.75rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: linear-gradient(90deg, rgba(255, 215, 0, 0.08), rgba(0, 255, 157, 0.1));
+      margin-bottom: 1.5rem;
+    }
+
+    .timer-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .timer-value {
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1.2rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
+        background 0.12s ease-out;
+      width: 100%;
+      max-width: 28rem;
+      text-decoration: none;
+      color: #050509;
+      margin: 0 auto;
+    }
+
+    .btn-gold {
+      background: radial-gradient(circle at top, #ffe46b, #ffd700);
+      box-shadow: 0 0 18px rgba(255, 215, 0, 0.55);
+    }
+
+    .btn-green {
+      background: radial-gradient(circle at top, #00ffb5, #00d47b);
+      box-shadow: 0 0 18px rgba(0, 255, 157, 0.55);
+    }
+
+    .btn-cyan {
+      background: radial-gradient(circle at top, #6af0ff, #00d0ff);
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.55);
+    }
+
+    .btn-pink {
+      background: radial-gradient(circle at top, #ff88e7, #ff4bcb);
+      box-shadow: 0 0 18px rgba(255, 75, 203, 0.55);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 0 24px rgba(255, 255, 255, 0.18);
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(0.99);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.16);
+    }
+
+    .btn + .btn {
+      margin-top: 0.7rem;
+    }
+
+    .btn span {
+      margin-right: 0.35rem;
+    }
+
+    .btn-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .trust-box-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    .trust-box {
+      width: 100%;
+      max-width: 28rem;
+      background: rgba(11, 9, 23, 0.9);
+      border-radius: 1.5rem;
+      border: 2px solid rgba(255, 215, 0, 0.35);
+      padding: 2.25rem 1.75rem;
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.35);
+      backdrop-filter: blur(10px);
+      text-align: center;
+    }
+
+    .trust-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .trust-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+
+    .trust-title span {
+      color: var(--gold);
+    }
+
+    .trust-text {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .trust-emojis {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .trust-points {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .trust-point {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      margin-top: 0.35rem;
+    }
+
+    .trust-point span:first-child {
+      font-size: 1rem;
+    }
+
+    .trust-point.green {
+      color: var(--neon-green);
+    }
+    .trust-point.cyan {
+      color: var(--neon-cyan);
+    }
+    .trust-point.gold {
+      color: var(--gold);
+    }
+
+    .activity-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .activity-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+    }
+
+    .activity-title span {
+      color: var(--neon-green);
+    }
+
+    .activity-feed {
+      width: 100%;
+      max-width: 28rem;
+      background: rgba(10, 8, 24, 0.9);
+      border-radius: 1.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 1rem 1rem 1.2rem;
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.25);
+      font-size: 0.9rem;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.15rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      font-size: 1.1rem;
+    }
+
+    .activity-text {
+      flex: 1;
+      color: var(--fg);
+    }
+
+    .activity-time {
+      font-size: 0.75rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 2.5rem 1.25rem 2.5rem;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    footer p {
+      max-width: 34rem;
+      margin: 0 auto;
+    }
+
+    footer .legal {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    footer .copy {
+      font-size: 0.7rem;
+      color: rgba(163, 163, 181, 0.7);
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scale-in {
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .fade-in {
+      animation: fade-in 0.5s ease-out forwards;
+    }
+
+    .scale-in {
+      animation: scale-in 0.35s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Header -->
+    <header>
+      <!-- Logo: ersetze bonusradar-logo.jpg durch deinen Dateinamen -->
+      <img src="bonusradar-logo.jpg" alt="BonusRadarDE Logo" class="logo fade-in" />
+      <p class="subtitle fade-in" style="animation-delay: 0.15s">
+        Deutschlands Radar für Casino- und Sportwetten-Boni
+      </p>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1 class="hero-title fade-in" style="animation-delay: 0.25s">
+        Exklusive Casino-Deals – <span>täglich aktualisiert</span>
+      </h1>
+      <p class="hero-text fade-in" style="animation-delay: 0.35s">
+        Finde die besten Bonus-Angebote, Freispiele und Sportwetten-Boni an einem Ort.
+      </p>
+
+      <!-- CountdownTimer -->
+      <div class="timer fade-in" style="animation-delay: 0.45s">
+        <div class="timer-label">Nächstes Bonus-Update in:</div>
+        <div id="timer-value" class="timer-value">03:24:55</div>
+      </div>
+
+      <!-- Haupt-CTA -->
+      <a
+        href="#angebote"
+        class="btn btn-gold scale-in"
+        style="animation-delay: 0.55s"
+      >
+        Top-Bonus jetzt sichern
+      </a>
+    </section>
+
+    <!-- Button Grid -->
+    <section class="btn-grid">
+      <!-- HIER DEINE AFFILIATE-LINKS EINTRAGEN -->
+      <a
+        href="#angebote"
+        class="btn btn-gold scale-in"
+        style="animation-delay: 0.65s"
+      >
+        <span>🔥</span> Top-Bonus jetzt sichern
+      </a>
+
+      <a
+        href="#angebote"
+        class="btn btn-green scale-in"
+        style="animation-delay: 0.75s"
+      >
+        <span>⚡</span> Schnelle Auszahlungsoptionen verfügbar
+      </a>
+
+      <a
+        href="#angebote"
+        class="btn btn-cyan scale-in"
+        style="animation-delay: 0.85s"
+      >
+        <span>🎁</span> Neue Angebote täglich
+      </a>
+
+      <a
+        href="#angebote"
+        class="btn btn-pink scale-in"
+        style="animation-delay: 0.95s"
+      >
+        <span>🎯</span> Exklusive VIP-Deals
+      </a>
+
+      <a
+        href="#angebote"
+        class="btn btn-gold scale-in"
+        style="animation-delay: 1.05s"
+      >
+        <span>🚀</span> Jetzt kostenlos registrieren
+      </a>
+    </section>
+
+    <!-- Trust Box -->
+    <section class="trust-box-wrapper" id="angebote">
+      <div class="trust-box fade-in" style="animation-delay: 1.1s">
+        <div class="trust-icon">💎</div>
+        <h2 class="trust-title">
+          <span>Premium</span> Deals
+        </h2>
+        <p class="trust-text">
+          Täglich neue Casino-Boni und Sportwetten-Angebote. Seriös, transparent und einfach zugänglich.
+        </p>
+
+        <div class="trust-emojis">
+          <span>💎</span>
+          <span>🪙</span>
+          <span>🏆</span>
+          <span>⚽</span>
+          <span>🎁</span>
+        </div>
+
+        <div class="trust-points">
+          <div class="trust-point green">
+            <span>✓</span>
+            <span>12.842 Nutzer diese Woche</span>
+          </div>
+          <div class="trust-point cyan">
+            <span>✓</span>
+            <span>Geprüfte Bonus-Angebote</span>
+          </div>
+          <div class="trust-point gold">
+            <span>✓</span>
+            <span>100 % sichere Weiterleitung</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Activity Feed -->
+    <section class="activity-section">
+      <h3 class="activity-title">
+        🔴 <span>Live</span> Aktivität
+      </h3>
+      <div class="activity-feed" id="activity-feed">
+        <!-- Einträge werden per JS gesetzt -->
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p class="legal">
+        18+ | Glücksspiel kann süchtig machen. Spiele verantwortungsbewusst.
+      </p>
+      <p class="copy">
+        BonusRadarDE © 2025 | Alle Rechte vorbehalten.
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Einfacher Countdown: z. B. 4 Stunden Loop
+    (function () {
+      const el = document.getElementById("timer-value");
+      if (!el) return;
+
+      const DURATION = 4 * 60 * 60; // 4 Stunden in Sekunden
+      let remaining = DURATION;
+
+      function format(sec) {
+        const h = String(Math.floor(sec / 3600)).padStart(2, "0");
+        const m = String(Math.floor((sec % 3600) / 60)).padStart(2, "0");
+        const s = String(sec % 60).padStart(2, "0");
+        return h + ":" + m + ":" + s;
+      }
+
+      function tick() {
+        el.textContent = format(remaining);
+        remaining--;
+        if (remaining < 0) remaining = DURATION;
+      }
+
+      tick();
+      setInterval(tick, 1000);
+    })();
+
+    // Activity Feed – fake Live-Events
+    (function () {
+      const feed = document.getElementById("activity-feed");
+      if (!feed) return;
+
+      const entries = [
+{
+          icon: "🔴",
+          text: "B••67 hat soeben einen Bonus aufgerufen",
+          ago: "vor 2 Minuten",
+        },
+
+        {
+          icon: "🟡",
+          text: "J••68 hat soeben einen Bonus aufgerufen",
+          ago: "vor 2 Minuten",
+        },
+        {
+          icon: "🔵",
+          text: "S••41 hat ein Angebot angesehen",
+          ago: "vor 5 Minuten",
+        },
+        {
+          icon: "🟣",
+          text: "M••99 hat ein VIP-Angebot geprüft",
+          ago: "vor 9 Minuten",
+        },
+        {
+          icon: "🟢",
+          text: "L••27 hat eine Sportwetten-Promo geöffnet",
+          ago: "vor 12 Minuten",
+        },
+        {
+          icon: "🟠",
+          text: "K••13 hat Freispiele angeklickt",
+          ago: "vor 18 Minuten",
+        },
+      ];
+
+      function renderList(list) {
+        feed.innerHTML = "";
+        list.forEach(function (item) {
+          const row = document.createElement("div");
+          row.className = "activity-item";
+
+          const icon = document.createElement("div");
+          icon.className = "activity-icon";
+          icon.textContent = item.icon;
+
+          const text = document.createElement("div");
+          text.className = "activity-text";
+          text.textContent = item.text;
+
+          const time = document.createElement("div");
+          time.className = "activity-time";
+          time.textContent = item.ago;
+
+          row.appendChild(icon);
+          row.appendChild(text);
+          row.appendChild(time);
+          feed.appendChild(row);
+        });
+      }
+
+      function shuffle(array) {
+        const arr = array.slice();
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      renderList(entries);
+
+      // alle 30 Sekunden neu “mischen”
+      setInterval(function () {
+        renderList(shuffle(entries));
+      }, 30000);
+    })();
+  </script>
+</body>
+</html>
