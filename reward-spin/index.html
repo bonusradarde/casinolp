@@ -1,1 +1,383 @@
 
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Daily Reward Spin – Bonus freischalten</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #060314;
+      --bg2: #140b35;
+      --gold: #ffd700;
+      --blue: #00e5ff;
+      --pink: #ff4bcb;
+      --green: #00ff9d;
+      --text: #fdfdfd;
+      --muted: #b0a9d6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, var(--bg2), var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      padding: 1.75rem 1.25rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    header {
+      margin-bottom: 1.6rem;
+    }
+
+    .logo-text {
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      line-height: 1.25;
+      margin-bottom: 0.6rem;
+    }
+
+    h1 span {
+      color: var(--gold);
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 1.1rem;
+    }
+
+    .wheel-wrapper {
+      position: relative;
+      margin: 0 auto 1.4rem;
+      width: 280px;
+      height: 280px;
+    }
+
+    .pointer {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 26px solid var(--gold);
+      filter: drop-shadow(0 0 10px rgba(0,0,0,0.7));
+      z-index: 2;
+    }
+
+    .wheel {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 10px solid #1f1346;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6),
+                  0 0 60px rgba(0, 229, 255, 0.45);
+      background:
+        conic-gradient(
+          #ff9f43 0deg 45deg,
+          #f368e0 45deg 90deg,
+          #54a0ff 90deg 135deg,
+          #1dd1a1 135deg 180deg,
+          #ff6b6b 180deg 225deg,
+          #5f27cd 225deg 270deg,
+          #0abde3 270deg 315deg,
+          #feca57 315deg 360deg
+        );
+      position: relative;
+      transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
+      overflow: hidden;
+    }
+
+    .wheel-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(circle at top, #ffeaa7, var(--gold));
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
+      font-weight: 800;
+      color: #3b2500;
+      font-size: 1.1rem;
+      letter-spacing: 0.06em;
+    }
+
+    .wheel-label {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform-origin: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 4px rgba(0,0,0,0.8);
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.9rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      color: #111;
+      background: radial-gradient(circle at top, #ffe46b, var(--gold));
+      box-shadow: 0 0 22px rgba(255, 215, 0, 0.65);
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 0 28px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 0 14px rgba(255, 215, 0, 0.5);
+    }
+
+    .btn[disabled] {
+      opacity: 0.7;
+      cursor: default;
+      transform: none;
+      box-shadow: 0 0 14px rgba(255, 215, 0, 0.3);
+    }
+
+    .btn-glow {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle at center, rgba(255, 215, 0, 0.6), transparent 70%);
+      opacity: 0.55;
+      filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .note {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.6rem;
+    }
+
+    .result-box {
+      margin-top: 1.4rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      min-height: 2.4rem;
+    }
+
+    .result-highlight {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .cta-wrapper {
+      margin-top: 0.9rem;
+      display: none;
+    }
+
+    .cta-wrapper.visible {
+      display: block;
+    }
+
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      text-decoration: none;
+      color: #050509;
+      background: radial-gradient(circle at top, #6af0ff, #00d0ff);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.55);
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
+    }
+
+    .cta-link:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 0 24px rgba(255, 255, 255, 0.18);
+    }
+
+    footer {
+      margin-top: auto;
+      padding-top: 1.7rem;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="logo-text">BONUSRADARDE • DAILY REWARD</div>
+      <h1>🎁 <span>Daily Reward Spin</span></h1>
+      <p class="subtitle">
+        Dreh das Rad einmal und sieh, welche Startaktion heute für dich freigeschaltet wird.
+      </p>
+      <p class="hint">
+        Nur ein Spin pro Besuch – diese Seite zeigt nur Rewards & Start-Aktionen bei geprüften Anbietern.
+      </p>
+    </header>
+
+    <div class="wheel-wrapper">
+      <div class="pointer"></div>
+      <div class="wheel" id="wheel">
+        <div class="wheel-center">SPIN</div>
+        <!-- Labels werden per JS ergänzt -->
+      </div>
+    </div>
+
+    <button class="btn" id="spin-btn">
+      <span>Jetzt drehen</span>
+      <div class="btn-glow"></div>
+    </button>
+    <div class="note">
+      Tipp: Sichere dir deinen Reward direkt nach dem Dreh – Aktionen können limitiert sein.
+    </div>
+
+    <div class="result-box" id="result-box"></div>
+
+    <div class="cta-wrapper" id="cta-wrapper">
+      <a
+        href="https://bonusradarde.github.io/Angebote/"
+        class="cta-link"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Reward jetzt auf BonusRadarDE ansehen
+      </a>
+    </div>
+
+    <footer>
+      18+ | Bitte verantwortungsvoll nutzen. Diese Seite zeigt nur Bonus- und Reward-Informationen.
+    </footer>
+  </div>
+
+  <script>
+    // Segmente wie in deinem React-Code
+    const segments = [
+      { text: "200% Boost" },
+      { text: "MAX-Level" },
+      { text: "Extra Spins Paket" },
+      { text: "Highroller Boost" },
+      { text: "60% Boost" },
+      { text: "15% Weekly" },
+      { text: "10% Starter" },
+      { text: "30% Reload" }
+    ];
+
+    const wheel = document.getElementById("wheel");
+    const spinBtn = document.getElementById("spin-btn");
+    const resultBox = document.getElementById("result-box");
+    const ctaWrapper = document.getElementById("cta-wrapper");
+
+    const sliceAngle = 360 / segments.length;
+    let currentRotation = 0;
+    let isSpinning = false;
+
+    // Labels auf dem Rad platzieren (nur die Texte, Farben kommen vom conic-gradient)
+    function createLabels() {
+      segments.forEach((seg, index) => {
+        const label = document.createElement("div");
+        label.className = "wheel-label";
+        const angle = sliceAngle * index + sliceAngle / 2;
+        const radius = 95; // Abstand vom Zentrum
+
+        const rad = (angle - 90) * (Math.PI / 180);
+        const x = 140 + radius * Math.cos(rad); // 140 ~ Hälfte von 280
+        const y = 140 + radius * Math.sin(rad);
+
+        label.style.left = x + "px";
+        label.style.top = y + "px";
+        label.style.transform = `translate(-50%, -50%) rotate(${angle - 90}deg)`;
+        label.textContent = seg.text.split(" ")[0]; // kurz: "200%", "MAX", "Extra", ...
+        wheel.appendChild(label);
+      });
+    }
+
+    createLabels();
+
+    function spin() {
+      if (isSpinning) return;
+      isSpinning = true;
+      spinBtn.disabled = true;
+      ctaWrapper.classList.remove("visible");
+      resultBox.textContent = "Rad wird gedreht…";
+
+      const prizeIndex = Math.floor(Math.random() * segments.length);
+      const extraSpins = 5; // volle Umdrehungen
+      const targetRotation =
+        extraSpins * 360 + (360 - (prizeIndex * sliceAngle + sliceAngle / 2));
+
+      currentRotation = currentRotation + targetRotation;
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+      setTimeout(() => {
+        const prizeText = segments[prizeIndex].text;
+        resultBox.innerHTML =
+          'Dein heutiger Reward: <span class="result-highlight">' +
+          prizeText +
+          "</span>";
+        ctaWrapper.classList.add("visible");
+        isSpinning = false;
+        spinBtn.disabled = false;
+      }, 4000);
+    }
+
+    spinBtn.addEventListener("click", spin);
+  </script>
+</body>
+</html>
